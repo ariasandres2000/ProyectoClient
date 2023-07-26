@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environment';
-import { Login } from '../request/login';
-import { User } from '../models/user';
-import { Respuesta } from '../request/respuesta';
+import { PromptsRequest } from '../request/promptsRequest';
 import { StorageService } from './storage.service';
-import { UserRequest } from '../request/userRequest';
+import { Prompts } from '../models/prompts';
+import { Respuesta } from '../request/respuesta';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -15,25 +14,11 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-
-export class UserService {
+export class PromptsService {
 
   constructor(private http: HttpClient, private storageService: StorageService) { }
 
-  login(username: string, password: string): Observable<any> {
-    let usuario = {
-      correo: username,
-      contrasena: password,
-    };
-
-    return this.http.post<Login>(environment.URL + '/usuario/session', usuario, httpOptions);
-  }
-
-  register(user: User): Observable<any> {
-    return this.http.post<Respuesta>(environment.URL + '/usuario/register', user, httpOptions);
-  }
-
-  obtenerDato() {
+  obtenerDato(user: Number): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({ 
         'Content-Type': 'application/json',
@@ -41,10 +26,10 @@ export class UserService {
       })
     };
 
-    return this.http.get<UserRequest>(environment.URL + '/usuario', httpOptions);
+    return this.http.get<PromptsRequest>(environment.URL + '/indicacion/GetIndicacion?idUsuario='+ user, httpOptions);
   }
 
-  save(user: User) {
+  register(prompt: Prompts): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({ 
         'Content-Type': 'application/json',
@@ -52,10 +37,10 @@ export class UserService {
       })
     };
 
-    return this.http.post<UserRequest>(environment.URL + '/usuario', user, httpOptions);
+    return this.http.post<Respuesta>(environment.URL + '/indicacion', prompt, httpOptions);
   }
 
-  edit(user: User) {
+  edit(prompt: Prompts): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({ 
         'Content-Type': 'application/json',
@@ -63,10 +48,10 @@ export class UserService {
       })
     };
 
-    return this.http.patch<UserRequest>(environment.URL + '/usuario', user, httpOptions);
+    return this.http.patch<Respuesta>(environment.URL + '/indicacion', prompt, httpOptions);
   }
-  
-  delete(user: Number) {
+
+  delete(prompt: Prompts): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({ 
         'Content-Type': 'application/json',
@@ -74,6 +59,6 @@ export class UserService {
       })
     };
 
-    return this.http.delete<UserRequest>(environment.URL + '/usuario/' + user, httpOptions);
+    return this.http.delete<Respuesta>(environment.URL + '/indicacion/' + prompt.id_indicacion, httpOptions);
   }
 }

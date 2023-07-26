@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './views/login/login.component';
 import { HomeComponent } from  './views/home/home.component';
 import { RegisterComponent } from './views/register/register.component';
+import { UsersComponent } from './views/users/users.component'
+import { PromptsComponent } from './views/prompts/prompts.component';
 
 const routes: Routes = [
   { 
@@ -19,6 +21,16 @@ const routes: Routes = [
     path: 'register',
     component: RegisterComponent,
     title: 'Register'
+  },
+  {
+    path: 'user',
+    component: UsersComponent,
+    title: 'User'
+  },
+  {
+    path: 'prompt',
+    component: PromptsComponent,
+    title: 'Prompt'
   }
 ];
 

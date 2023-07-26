@@ -22,7 +22,6 @@ export class RegisterComponent {
  constructor(private userService: UserService, private route: Router) {}
 
   onSubmit(form: any) {
-    console.log(form)
     if (form.contrasena == form.contrasenaConf) {
       let user: User = {
         id_usuario: 0,

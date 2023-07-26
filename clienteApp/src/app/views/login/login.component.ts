@@ -40,12 +40,12 @@ export class LoginComponent implements OnInit {
             id_usuario: data.data.id_usuario,
             nombre: data.data.nombre,
             apellido: data.data.apellido,
-            correo:  data.data.correo,
-            contrasena:  data.data.contrasena,
-            tipo:  data.data.tipo,
+            correo: data.data.correo,
+            contrasena: data.data.contrasena,
+            tipo: data.data.tipo
           }
-
-          environment.token = data.token;
+          console.log(data.token)
+          this.storageService.saveToken(data.token);
 
           this.storageService.saveUser(user);        
           this.reloadPage();
