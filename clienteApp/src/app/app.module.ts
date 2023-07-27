@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './views/register/register.component';
 import { UsersComponent } from './views/users/users.component';
 import { PromptsComponent } from './views/prompts/prompts.component';
+import { OpenAIComponent } from './views/open-ai/open-ai.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { PromptsComponent } from './views/prompts/prompts.component';
     HomeComponent,
     RegisterComponent,
     UsersComponent,
-    PromptsComponent
+    PromptsComponent,
+    OpenAIComponent
   ],
   imports: [
     BrowserModule,

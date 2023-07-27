@@ -6,6 +6,7 @@ import { PromptsRequest } from '../request/promptsRequest';
 import { StorageService } from './storage.service';
 import { Prompts } from '../models/prompts';
 import { Respuesta } from '../request/respuesta';
+import { OpenAi } from '../request/open-ai';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -41,6 +42,7 @@ export class PromptsService {
   }
 
   edit(prompt: Prompts): Observable<any> {
+    console.log(prompt)
     const httpOptions = {
       headers: new HttpHeaders({ 
         'Content-Type': 'application/json',
@@ -60,5 +62,16 @@ export class PromptsService {
     };
 
     return this.http.delete<Respuesta>(environment.URL + '/indicacion/' + prompt.id_indicacion, httpOptions);
+  }
+
+  getRun(id: Number) : Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.storageService.getToken()}`
+      })
+    };
+
+    return this.http.get<OpenAi>(environment.URL + '/OpenAI/' + id, httpOptions);
   }
 }

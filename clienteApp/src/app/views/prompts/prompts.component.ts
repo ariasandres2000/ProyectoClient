@@ -5,6 +5,7 @@ import { PromptsService } from 'src/app/services/prompts.service';
 import * as alertyfy from 'alertifyjs';
 import { FormGroup,  FormControl,  Validators } from '@angular/forms';
 import { Prompts } from 'src/app/models/prompts';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-prompts',
@@ -58,8 +59,17 @@ export class PromptsComponent implements OnInit {
     });
   }
 
-  save(propmt: any) {   
-    if (propmt.id_indicacion > 0) {
+  save(propmt: any) { 
+    var etiqueta: any;
+    console.log(propmt.etiqueta);
+    if (propmt.etiqueta != '') {
+      etiqueta = propmt.etiqueta.split(",")
+    }
+    else {
+      etiqueta = Array<String>()
+    }
+
+    if (propmt.id_indicacion > 0) {    
       let nuevo: Prompts = {
         id_indicacion: propmt.id_indicacion,
         id_usuario: this.user.id_usuario,
@@ -68,7 +78,7 @@ export class PromptsComponent implements OnInit {
         instruccion: propmt.instruccion,
         valor: propmt.valor,
         cantidad: propmt.cantidad,
-        etiqueta: propmt.etiqueta.split(",")
+        etiqueta: etiqueta
       };
 
       this.promptService.edit(nuevo).subscribe(data => {
@@ -92,7 +102,7 @@ export class PromptsComponent implements OnInit {
         instruccion: propmt.instruccion,
         valor: propmt.valor,
         cantidad: propmt.cantidad,
-        etiqueta: propmt.etiqueta.split(",")
+        etiqueta: etiqueta
       };
       this.promptService.register(nuevo).subscribe(data => {
           if (!data.error) {  
@@ -137,6 +147,17 @@ export class PromptsComponent implements OnInit {
   }
 
   run(propmt: any) {
-    alert('Ejecutando')
+    this.promptService.getRun(propmt.id_indicacion).subscribe(data => {
+        if (!data.error) {  
+          console.log(data.data)
+          Swal.fire("Respuesta del AI:" + data.data.result);
+        } else {          
+          alertyfy.error(data.mensajeError);
+        } 
+      },
+      error => {
+        alertyfy.error("A ocurrido un error intente más tarde.");
+      }
+    );    
   }
 }
